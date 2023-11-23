@@ -1,7 +1,7 @@
 pipeline {
     environment {
-        registry = "westy22/westy-docker-hub"
-        registryCredential = 'dockerhub_id'
+        registry = 'https://index.docker.io/v1/'
+        registryCredential = 'Docker_ID'
         dockerImage = ''
     }
     
@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     echo "Current directory: ${pwd()}"
-                    dockerImage = docker.build("-t ${registry}:${BUILD_NUMBER} .")
+                    dockerImage = docker.build("-t ${registry}:react-todo-test .")
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'Docker_ID') {
+                    docker.withRegistry("${registry}", 'Docker_ID') {
                         // Docker push steps
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
