@@ -17,11 +17,13 @@ pipeline {
             }
         }
         
-        stage('Deploy our image') {
+        stage('Deploy') {
             steps {
                 script {
-                    docker.withRegistry('', registryCredential) {
-                        dockerImage.push()
+                    docker.withRegistry('https://index.docker.io/v1/', 'Docker_ID') {
+                        // Docker push steps
+                        app.push("${env.BUILD_NUMBER}")
+                        app.push("latest")
                     }
                 }
             }
