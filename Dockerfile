@@ -2,7 +2,7 @@
 FROM node:14-alpine
 
 # Set the working directory inside the container
-WORKDIR /app
+WORKDIR /react-basic-todo
 
 # Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
