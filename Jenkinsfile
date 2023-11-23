@@ -5,11 +5,10 @@ pipeline {
         name = 'react-todo-app'
         dockerImage = ''
     }
-    
+
     agent any
-    
+
     stages {
-       stages {
         stage('Build Docker Image') {
             steps {
                 script {
@@ -29,12 +28,20 @@ pipeline {
                 }
             }
         }
-        
+
         stage('Cleaning up') {
             steps {
                 sh "docker rmi ${registry}:${BUILD_NUMBER}"
             }
         }
     }
-}
 
+    post {
+        success {
+            // Actions to be taken if the pipeline succeeds
+        }
+        failure {
+            // Actions to be taken if the pipeline fails
+        }
+    }
+}
