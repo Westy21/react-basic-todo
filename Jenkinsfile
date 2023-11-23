@@ -35,13 +35,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            // Actions to be taken if the pipeline succeeds
-        }
-        failure {
-            // Actions to be taken if the pipeline fails
-        }
-    }
 }
