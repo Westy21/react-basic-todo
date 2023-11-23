@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     echo "Current directory: ${pwd()}"
-                    dockerImage = docker.build("-t ${registry}:react-todo-test .")
+                    dockerImage = docker.build("-t ${registry}:${BUILD_NUMBER} .")
                 }
             }
         }
