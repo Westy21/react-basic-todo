@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a base image
-FROM node:14-alpine
+FROM node:18
 
 # Set the working directory inside the container
 WORKDIR /react-basic-todo
