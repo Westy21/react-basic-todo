@@ -21,7 +21,8 @@ pipeline {
         stage('Deploy Docker Image') {
             steps {
                 script {
-                    docker.withRegistry("${registry}", "${registryCredential}") {
+                    // Use Docker Hub credentials directly for authentication
+                    withDockerRegistry([credentialsId: "${registryCredential}", url: "${registry}"]) {
                         // Docker push steps
                         docker.image("${name}:${BUILD_NUMBER}").push()
                     }
