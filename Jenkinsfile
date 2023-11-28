@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = 'https://index.docker.io/v1/'
+        registry = ''
         registryCredential = 'Docker_ID'
         name = 'react-todo-app'
         dockerImage = ''
