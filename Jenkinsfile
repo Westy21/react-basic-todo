@@ -1,9 +1,6 @@
-import jenkins.model.*
-jenkins = Jenkins.instance
-
 pipeline {
     environment {
-        registry = ''
+        registry = 'https://index.docker.io/v1/'
         registryCredential = 'Docker_ID'
         name = 'react-todo-app'
         dockerImage = ''
@@ -24,7 +21,8 @@ pipeline {
         stage('Deploy Docker Image') {
             steps {
                 script {
-                    docker.withRegistry("${registry}", "${registryCredential}") {
+                    // Use Docker Hub credentials directly for authentication
+                    withDockerRegistry([credentialsId: "${registryCredential}", url: "${registry}"]) {
                         // Docker push steps
                         docker.image("${name}:${BUILD_NUMBER}").push()
                     }
