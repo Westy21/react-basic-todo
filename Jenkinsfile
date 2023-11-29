@@ -11,7 +11,7 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t westy22/react-todo:latest .'
+        sh 'docker build -t westy22/westy-docker-hub:raect-todo-latest .'
       }
     }
     stage('Login') {
@@ -21,7 +21,7 @@ pipeline {
     }
     stage('Push') {
       steps {
-        sh 'docker push westy22/react-todo:latest'
+        sh 'docker push westy22/westy-docker-hub:raect-todo-latest'
       }
     }
   }
