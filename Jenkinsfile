@@ -1,39 +1,33 @@
 pipeline {
-    environment {
-        registry = 'https://index.docker.io/v1/'
-        registryCredential = 'Docker_ID'
-        name = 'react-todo-app'
-        dockerImage = ''
+    
+  agent any
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+  }
+  environment {
+    DOCKERHUB_CREDENTIALS = credentials('Docker_ID')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'docker build -t westy22/react-todo:latest .'
+      }
     }
-
-    agent any
-
-    stages {
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    // Your Docker build steps go here
-                    docker.build("${name}:${BUILD_NUMBER}")
-                }
-            }
-        }
-
-        stage('Deploy Docker Image') {
-            steps {
-                script {
-                    // Use Docker Hub credentials directly for authentication
-                    withDockerRegistry([credentialsId: "${registryCredential}", url: "${registry}"]) {
-                        // Docker push steps
-                        docker.image("${name}:${BUILD_NUMBER}").push()
-                    }
-                }
-            }
-        }
-
-        stage('Cleaning up') {
-            steps {
-                sh "docker rmi ${name}:${BUILD_NUMBER}"
-            }
-        }
+    stage('Login') {
+      steps {
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+      }
     }
+    stage('Push') {
+      steps {
+        sh 'docker push westy22/react-todo:latest'
+      }
+    }
+  }
+  post {
+    always {
+      sh 'docker logout'
+    }
+  }
 }
